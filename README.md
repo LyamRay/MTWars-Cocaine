@@ -26,8 +26,7 @@ The Cocaine plugin is a Minecraft plugin designed for personal gameplay customiz
 ---
 
 ## License
-
-[Specify your license here, e.g., MIT, GPL, or proprietary]
+//
 
 ---
 
