@@ -4,7 +4,6 @@ import lombok.Getter;
 import me.lyamray.mtwarscocaine.commands.TestCMD;
 import me.lyamray.mtwarscocaine.database.Database;
 import me.lyamray.mtwarscocaine.listeners.BlockClickListener;
-import me.lyamray.mtwarscocaine.listeners.BlockPhysicsListener;
 import me.lyamray.mtwarscocaine.listeners.coca.PlantClickListener;
 import me.lyamray.mtwarscocaine.listeners.lab.DecoratedPotClickListener;
 import org.bukkit.Bukkit;
@@ -71,8 +70,7 @@ public final class MTWarsCocaine extends JavaPlugin {
         Arrays.asList(
                 new DecoratedPotClickListener(),
                 new PlantClickListener(),
-                new BlockClickListener(),
-                new BlockPhysicsListener()
+                new BlockClickListener()
         ).forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
     }
 }
