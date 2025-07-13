@@ -1,0 +1,13 @@
+name: MTWars-Cocaine
+version: '1.0'
+main: me.lyamray.mtwarscocaine.MTWarsCocaine
+api-version: '1.21'
+load: STARTUP
+authors: [ LyamRay ]
+description: Cocaine plugin made for MT-Wars. Plant, cook, sell your own cocaine now!
+commands:
+  test:
+    description: test yarak amk siktirgit
+    aliases:
+      - testtitty
+      - lyamrayhasbigcock
