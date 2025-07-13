@@ -14,10 +14,6 @@ public class Database {
             statement.execute("""
                         CREATE TABLE IF NOT EXISTS players (
                             uuid TEXT PRIMARY KEY,
-                            contents TEXT,
-                            armorContents TEXT,
-                            lastLocation TEXT,
-                            combatTagged BOOLEAN NOT NULL DEFAULT 0
                         );
                     """);
         }
