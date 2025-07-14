@@ -86,7 +86,7 @@ public class PlantClickListener implements Listener {
 
     private void sendHarvestMessage(Player player, UUID playerId, UUID harvesterId) {
         String message = playerId.equals(harvesterId)
-                ? "<gray>Jij bent deze plant al aan het plukken!<gray>"
+                ? "<gray>Je bent deze plant al aan het plukken!<gray>"
                 : "<gray>Deze plant wordt al door <green>" + Optional.ofNullable(Bukkit.getOfflinePlayer(harvesterId).getName())
                 .orElse("onbekend") + "<green> <gray>geplukt!<gray>";
 

@@ -1,4 +1,4 @@
-package me.lyamray.mtwarscocaine.managers;
+package me.lyamray.mtwarscocaine.managers.entities;
 
 import lombok.AccessLevel;
 import lombok.Getter;

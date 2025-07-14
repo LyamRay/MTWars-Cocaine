@@ -1,6 +1,6 @@
 package me.lyamray.mtwarscocaine.commands;
 
-import me.lyamray.mtwarscocaine.managers.BlockDisplayManager;
+import me.lyamray.mtwarscocaine.managers.entities.BlockDisplayManager;
 import me.lyamray.mtwarscocaine.managers.coca.PlantValues;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

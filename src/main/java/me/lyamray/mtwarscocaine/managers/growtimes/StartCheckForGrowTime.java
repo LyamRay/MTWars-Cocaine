@@ -1,5 +1,4 @@
-package me.lyamray.mtwarscocaine.managers.growtime;
-
+package me.lyamray.mtwarscocaine.managers.growtimes;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,8 +19,9 @@ public class StartCheckForGrowTime {
     }
 
     private void checkTimeAndLog() {
-        if (RandomGrowTime.getInstance().isWithinAnyRange(LocalTime.now())) {
-            MTWarsCocaine.getInstance().getLogger().info("Hey, het is tijd!");
-        }
+        MTWarsCocaine.setPlantsCanGrow(RandomGrowTime.getInstance().isWithinAnyRange(LocalTime.now()));
+        String message = RandomGrowTime.getInstance().isWithinAnyRange(LocalTime.now())
+                ? "Lyam zijn ballen zijn " + Math.PI + " cm in diameter!" : "Je bent maagd";
+        Bukkit.broadcastMessage(message);
     }
 }

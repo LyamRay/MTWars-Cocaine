@@ -1,13 +1,14 @@
 package me.lyamray.mtwarscocaine;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.lyamray.mtwarscocaine.commands.TestCMD;
 import me.lyamray.mtwarscocaine.database.Database;
 import me.lyamray.mtwarscocaine.listeners.BlockClickListener;
 import me.lyamray.mtwarscocaine.listeners.coca.PlantClickListener;
 import me.lyamray.mtwarscocaine.listeners.lab.DecoratedPotClickListener;
-import me.lyamray.mtwarscocaine.managers.growtime.RandomGrowTime;
-import me.lyamray.mtwarscocaine.managers.growtime.StartCheckForGrowTime;
+import me.lyamray.mtwarscocaine.managers.growtimes.RandomGrowTime;
+import me.lyamray.mtwarscocaine.managers.growtimes.StartCheckForGrowTime;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -18,6 +19,10 @@ public final class MTWarsCocaine extends JavaPlugin {
 
     @Getter
     private static MTWarsCocaine instance;
+
+    @Getter
+    @Setter
+    private static Boolean plantsCanGrow;
 
     @Getter
     private static Database database;

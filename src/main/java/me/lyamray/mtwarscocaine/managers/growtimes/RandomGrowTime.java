@@ -1,4 +1,4 @@
-package me.lyamray.mtwarscocaine.managers.growtime;
+package me.lyamray.mtwarscocaine.managers.growtimes;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -14,8 +14,8 @@ public class RandomGrowTime {
     @Getter
     private static final RandomGrowTime instance = new RandomGrowTime();
 
-    private final int maximumTijdRanges = 3;
-    private final int tijdTussenElkeRange = 1;
+    private final int maxRanges = 3;
+    private final int timeBetweenRanges = 1;
 
     private final List<TimeRange> ranges = new ArrayList<>();
 
@@ -34,14 +34,14 @@ public class RandomGrowTime {
 
         for (int hour : availableHours) {
             LocalTime start = LocalTime.of(hour, 0);
-            LocalTime end = start.plusHours(tijdTussenElkeRange);
+            LocalTime end = start.plusHours(timeBetweenRanges);
             TimeRange newRange = new TimeRange(start, end);
 
             if (ranges.stream().noneMatch(existing -> existing.overlaps(newRange))) {
                 ranges.add(newRange);
             }
 
-            if (ranges.size() == maximumTijdRanges) break;
+            if (ranges.size() == maxRanges) break;
         }
 
         ranges.sort(Comparator.comparing(TimeRange::start));
