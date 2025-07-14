@@ -37,6 +37,7 @@ public class HarvestManager {
             case "grown" -> {
                 textLocation = baseLocation.toCenterLocation().add(0, 2.3, 0);
                 textDisplay = TextDisplayManager.getInstance().createEntity(textLocation, uuid, plantValue, "10s");
+                TextDisplayManager.getInstance().hideEntity(player, textDisplay);
                 HarvestTimer.getInstance().handleTimer(textDisplay, state, player, plantValue);
 
                 player.sendMessage(ChatColor.color("<gray>Je bent gestart met het plukken van een " +
@@ -46,6 +47,7 @@ public class HarvestManager {
             case "growing" -> {
                 textLocation = baseLocation.toCenterLocation().add(0, 1.3, 0);
                 textDisplay = TextDisplayManager.getInstance().createEntity(textLocation, uuid, plantValue, "10s");
+                TextDisplayManager.getInstance().hideEntity(player, textDisplay);
                 HarvestTimer.getInstance().handleTimer(textDisplay, state, player, plantValue);
 
                 player.sendMessage(ChatColor.color("<gray>Je bent gestart met het plukken van een " +

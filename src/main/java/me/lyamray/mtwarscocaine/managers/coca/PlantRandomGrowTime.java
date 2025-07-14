@@ -22,6 +22,8 @@ public class PlantRandomGrowTime {
         UUID uuid = plantValue.getUuid();
         String state = nextState(plantValue);
 
+        if (plantValue.getState().equals("grown")) return;
+
         new BukkitRunnable() {
             int ticksRemaining = totalTicks;
 

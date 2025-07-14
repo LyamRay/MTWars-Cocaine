@@ -3,12 +3,15 @@ package me.lyamray.mtwarscocaine.managers.entities;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import me.lyamray.mtwarscocaine.MTWarsCocaine;
 import me.lyamray.mtwarscocaine.managers.coca.PlantValues;
 import me.lyamray.mtwarscocaine.utils.Keys;
 import me.lyamray.mtwarscocaine.utils.PersistentDataContainerUtil;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Display;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -27,6 +30,13 @@ public class TextDisplayManager {
             entity.getPersistentDataContainer().set(Keys.PLANT_ID, PersistentDataType.STRING, uuid.toString());
             PersistentDataContainerUtil.toGson(plantValues, entity);
         });
+    }
+
+    public void hideEntity(Player player, TextDisplay entity) {
+        Bukkit.getOnlinePlayers().stream()
+                .filter(player1 -> !player1.equals(player))
+                .forEach(player1 -> player1.hideEntity(MTWarsCocaine.getInstance(), entity));
+
     }
 
     public void editEntity(TextDisplay entity, String text) {
