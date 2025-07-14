@@ -6,6 +6,8 @@ import me.lyamray.mtwarscocaine.database.Database;
 import me.lyamray.mtwarscocaine.listeners.BlockClickListener;
 import me.lyamray.mtwarscocaine.listeners.coca.PlantClickListener;
 import me.lyamray.mtwarscocaine.listeners.lab.DecoratedPotClickListener;
+import me.lyamray.mtwarscocaine.managers.growtime.RandomGrowTime;
+import me.lyamray.mtwarscocaine.managers.growtime.StartCheckForGrowTime;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -24,8 +26,13 @@ public final class MTWarsCocaine extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         instance = this;
+
         registerListeners();
         connectDatabase();
+
+        RandomGrowTime.getInstance().generate();
+        StartCheckForGrowTime.getInstance().startTimeCheckTask();
+
         getCommand("test").setExecutor(new TestCMD());
     }
 

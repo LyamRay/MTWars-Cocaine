@@ -3,7 +3,6 @@ package me.lyamray.mtwarscocaine.managers;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import me.lyamray.mtwarscocaine.MTWarsCocaine;
 import me.lyamray.mtwarscocaine.managers.coca.PlantValues;
 import me.lyamray.mtwarscocaine.utils.Keys;
 import me.lyamray.mtwarscocaine.utils.PersistentDataContainerUtil;
@@ -78,5 +77,4 @@ public class BlockDisplayManager {
                 })
                 .forEach(Entity::remove);
     }
-
 }
