@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import me.lyamray.mtwarscocaine.MTWarsCocaine;
 import me.lyamray.mtwarscocaine.managers.coca.PlantValues;
+import me.lyamray.mtwarscocaine.utils.Keys;
+import me.lyamray.mtwarscocaine.utils.PersistentDataContainerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -12,7 +14,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.BlockDisplay;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.UUID;
 
@@ -39,11 +41,15 @@ public class BlockDisplayManager {
             case "growing" -> {
                 deleteEntitiesByUUID(player, uuid);
                 spawnEntityInColumn(location, uuid, plantValues,kelpPlant, kelp);
+                EntityInteractionManager.getInstance().createEntity(1.5f,0.5f,
+                        location.toCenterLocation().add(0, -0.5, 0), player ,uuid, plantValues);
             }
 
             case "grown" -> {
                 deleteEntitiesByUUID(player, uuid);
                 spawnEntityInColumn(location, uuid, plantValues,kelpPlant, kelpPlant, kelp);
+                EntityInteractionManager.getInstance().createEntity(2.5f,0.5f,
+                        location.toCenterLocation().add(0, -0.5,0), player ,uuid, plantValues);
             }
         }
     }
@@ -58,17 +64,19 @@ public class BlockDisplayManager {
         location.getWorld().spawn(location, BlockDisplay.class, entity -> {
             entity.setBlock(blockData);
             entity.setRotation(0f, 0f);
-            entity.setMetadata("plant_id", new FixedMetadataValue(MTWarsCocaine.getInstance(), uuid));
-            entity.setMetadata("plantvalue", new FixedMetadataValue(MTWarsCocaine.getInstance(), plantValues));
+            entity.getPersistentDataContainer().set(Keys.PLANT_ID, PersistentDataType.STRING, uuid.toString());
+            PersistentDataContainerUtil.toGson(plantValues, entity);
         });
     }
 
     public void deleteEntitiesByUUID(Player player, UUID uuid) {
         player.getWorld().getEntities().stream()
-                .filter(entity -> entity.hasMetadata("plant_id"))
-                .filter(entity -> entity.getMetadata("plant_id").stream()
-                        .anyMatch(meta -> meta.getOwningPlugin().equals(MTWarsCocaine.getInstance()) &&
-                                uuid.equals(meta.value())))
+                .filter(entity -> {
+                    var container = entity.getPersistentDataContainer();
+                    return PersistentDataContainerUtil.has(container, Keys.PLANT_ID, PersistentDataType.STRING) &&
+                            uuid.toString().equals(PersistentDataContainerUtil.get(container, Keys.PLANT_ID, PersistentDataType.STRING));
+                })
                 .forEach(Entity::remove);
     }
+
 }

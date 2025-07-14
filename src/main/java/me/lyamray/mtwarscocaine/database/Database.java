@@ -13,7 +13,7 @@ public class Database {
         try (Statement statement = connection.createStatement()) {
             statement.execute("""
                         CREATE TABLE IF NOT EXISTS players (
-                            uuid TEXT PRIMARY KEY,
+                            uuid TEXT PRIMARY KEY
                         );
                     """);
         }

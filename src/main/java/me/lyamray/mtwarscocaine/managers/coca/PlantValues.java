@@ -13,5 +13,5 @@ public class PlantValues {
     UUID uuid;
     Location location;
     String state;
-
+    Boolean isBeingHarvested;
 }

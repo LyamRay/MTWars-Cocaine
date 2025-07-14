@@ -9,9 +9,6 @@ import me.lyamray.mtwarscocaine.listeners.lab.DecoratedPotClickListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.Arrays;
 
@@ -28,7 +25,7 @@ public final class MTWarsCocaine extends JavaPlugin {
         // Plugin startup logic
         instance = this;
         registerListeners();
-        checkFolderAndTryConnect();
+        connectDatabase();
         getCommand("test").setExecutor(new TestCMD());
     }
 
@@ -43,30 +40,26 @@ public final class MTWarsCocaine extends JavaPlugin {
         getLogger().finest("The plugin has shutdown successfully!");
     }
 
-    private void checkFolderAndTryConnect() {
-        Path dataFolderPath = getDataFolder().toPath();
-
+    private void connectDatabase() {
         try {
-
-            if (Files.notExists(dataFolderPath)) {
-                Files.createDirectories(dataFolderPath);
+            if (!getDataFolder().exists()) {
+                if (!getDataFolder().mkdirs()) {
+                    getLogger().warning("Failed to create the data folder and database! Shutting down..");
+                    Bukkit.getPluginManager().disablePlugin(this);
+                    return;
+                }
             }
 
-            Path dbPath = dataFolderPath.resolve("MTWars-Cocaine.db");
-            database = new Database(dbPath.toString());
+            database = new Database(getDataFolder().getAbsolutePath() + "/MTWars-Cocaine.db");
             getLogger().info("Connected successfully to the database!");
 
-        } catch (IOException e) {
-            getLogger().severe("Failed to create the data folder: " + e.getMessage());
+        } catch (SQLException exception) {
             Bukkit.getPluginManager().disablePlugin(this);
-
-        } catch (SQLException e) {
-            getLogger().severe("Failed to connect to the local database: " + e.getMessage());
-            Bukkit.getPluginManager().disablePlugin(this);
+            throw new RuntimeException("Failed to connect to the database. " + exception);
         }
     }
 
-    private void registerListeners() {
+    public void registerListeners() {
         Arrays.asList(
                 new DecoratedPotClickListener(),
                 new PlantClickListener(),

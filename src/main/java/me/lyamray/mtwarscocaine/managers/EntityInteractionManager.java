@@ -1,16 +1,25 @@
 package me.lyamray.mtwarscocaine.managers;
 
-import me.lyamray.mtwarscocaine.MTWarsCocaine;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import me.lyamray.mtwarscocaine.managers.coca.PlantValues;
+import me.lyamray.mtwarscocaine.utils.Keys;
+import me.lyamray.mtwarscocaine.utils.PersistentDataContainerUtil;
 import org.bukkit.Location;
 import org.bukkit.entity.Interaction;
 import org.bukkit.entity.Player;
-import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.UUID;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class EntityInteractionManager {
 
-    public void createEntity(Float height, Float width, Location location, Player player, UUID uuid) {
+    @Getter
+    private static final EntityInteractionManager instance = new EntityInteractionManager();
+
+    public void createEntity(Float height, Float width, Location location, Player player, UUID uuid, PlantValues plantValues) {
 
         final float defaultSize = 1.0f;
         float finalHeight = (height != null && height != defaultSize) ? height : defaultSize;
@@ -19,7 +28,8 @@ public class EntityInteractionManager {
         location.getWorld().spawn(location, Interaction.class, entity -> {
             entity.setInteractionHeight(finalHeight);
             entity.setInteractionWidth(finalWidth);
-            entity.setMetadata("uuid", new FixedMetadataValue(MTWarsCocaine.getInstance(), uuid));
+            entity.getPersistentDataContainer().set(Keys.PLANT_ID, PersistentDataType.STRING, uuid.toString());
+            PersistentDataContainerUtil.toGson(plantValues, entity);
         });
     }
 }

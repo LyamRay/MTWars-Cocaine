@@ -36,7 +36,8 @@ public class TestCMD implements CommandExecutor {
         PlantValues plantValue = new PlantValues(
                 uuid,
                 location,
-                state
+                state,
+                false
         );
 
         BlockDisplayManager.getInstance().createBlockDisplayEntity(player, plantValue);
