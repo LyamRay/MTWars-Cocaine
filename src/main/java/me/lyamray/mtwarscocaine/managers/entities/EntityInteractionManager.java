@@ -7,7 +7,6 @@ import me.lyamray.mtwarscocaine.managers.coca.PlantValues;
 import me.lyamray.mtwarscocaine.utils.Keys;
 import me.lyamray.mtwarscocaine.utils.PersistentDataContainerUtil;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Interaction;
 import org.bukkit.persistence.PersistentDataType;
 

@@ -25,6 +25,8 @@ public class RandomGrowTime {
     public void generate() {
         ranges.clear();
 
+        ranges.add(new TimeRange(LocalTime.now(), LocalTime.now().plusHours(1))); //DEBUG
+
         List<Integer> availableHours = new ArrayList<>();
         for (int i = MIN_HOUR; i <= MAX_HOUR; i++) {
             availableHours.add(i);
@@ -46,6 +48,7 @@ public class RandomGrowTime {
 
         ranges.sort(Comparator.comparing(TimeRange::start));
     }
+
 
     public boolean isWithinAnyRange(LocalTime now) {
         return ranges.stream().anyMatch(r -> r.isWithin(now));

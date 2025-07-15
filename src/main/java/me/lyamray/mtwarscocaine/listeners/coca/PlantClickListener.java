@@ -23,7 +23,6 @@ public class PlantClickListener implements Listener {
 
     private Player player;
 
-    private PlantValues plantValue;
 
     @EventHandler
     public void onUnknownEntityUse(PlayerInteractEntityEvent event) {
@@ -47,8 +46,6 @@ public class PlantClickListener implements Listener {
     private void checkIfIsBeingHarvested(Entity entity, Player player) {
         PlantValues plantValue = PersistentDataContainerUtil.fromGson(entity);
 
-        this.plantValue = plantValue;
-
         if (plantValue == null) return;
 
         UUID playerId = player.getUniqueId();
@@ -58,7 +55,7 @@ public class PlantClickListener implements Listener {
         boolean isHarvested = Boolean.TRUE.equals(plantValue.getIsBeingHarvested());
 
         if (!isHarvested || harvesterId == null) {
-            claimPlant(container, playerId, entity);
+            claimPlant(container, playerId, entity, plantValue);
             return;
         }
 
@@ -76,19 +73,20 @@ public class PlantClickListener implements Listener {
         }
     }
 
-    private void claimPlant(PersistentDataContainer container, UUID playerId, Entity entity) {
+    private void claimPlant(PersistentDataContainer container, UUID playerId, Entity entity, PlantValues plantValues) {
         PersistentDataContainerUtil.set(container, Keys.HARVESTER, PersistentDataType.STRING, playerId.toString());
-        plantValue.setIsBeingHarvested(true);
-        PersistentDataContainerUtil.toGson(plantValue, entity);
+        plantValues.setIsBeingHarvested(true);
+        PersistentDataContainerUtil.toGson(plantValues, entity);
 
-        HarvestManager.getInstance().harvestPlant(player, plantValue);
+        HarvestManager.getInstance().harvestPlant(player, plantValues);
     }
 
     private void sendHarvestMessage(Player player, UUID playerId, UUID harvesterId) {
         String message = playerId.equals(harvesterId)
-                ? "<gray>Je bent deze plant al aan het plukken!<gray>"
-                : "<gray>Deze plant wordt al door <green>" + Optional.ofNullable(Bukkit.getOfflinePlayer(harvesterId).getName())
-                .orElse("onbekend") + "<green> <gray>geplukt!<gray>";
+                ? "<gradient:#555856:#555856>Je bent deze plant al aan het plukken!</gradient>"
+                : "<gradient:#555856:#555856>Deze plant wordt al door <color:#61ffab>" +
+                Optional.ofNullable(Bukkit.getOfflinePlayer(harvesterId).getName())
+                .orElse("onbekend") + "</color> geplukt!</gradient>";
 
         player.sendMessage(ChatColor.color(message));
     }

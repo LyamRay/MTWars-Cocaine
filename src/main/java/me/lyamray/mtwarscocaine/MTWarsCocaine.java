@@ -11,6 +11,7 @@ import me.lyamray.mtwarscocaine.listeners.BlockClickListener;
 import me.lyamray.mtwarscocaine.listeners.coca.PlantClickListener;
 import me.lyamray.mtwarscocaine.listeners.lab.DecoratedPotClickListener;
 import me.lyamray.mtwarscocaine.managers.coca.PlantValues;
+import me.lyamray.mtwarscocaine.managers.growtimes.RandomGrowTime;
 import me.lyamray.mtwarscocaine.managers.growtimes.StartCheckForGrowTime;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -45,9 +46,11 @@ public final class MTWarsCocaine extends JavaPlugin {
         if (!setupDataFolder()) return;
         if (!setupDatabase()) return;
 
-        StartCheckForGrowTime.getInstance().startTimeCheckTask();
+        RandomGrowTime.getInstance().generate();
+
         registerListeners();
-        Bukkit.getScheduler().runTaskLater(this, this::loadPlantsSafely, 60L);
+
+        Bukkit.getScheduler().runTaskLater(this, this::loadPlantsSafely, 10*20L);
 
         getCommand("test").setExecutor(new TestCMD());
 
@@ -103,6 +106,7 @@ public final class MTWarsCocaine extends JavaPlugin {
     private void loadPlantsSafely() {
         try {
             LoadPlants.getInstance().load();
+            StartCheckForGrowTime.getInstance().startTimeCheckTask();
         } catch (SQLException e) {
             log.error("Failed to load plants", e);
             Bukkit.getPluginManager().disablePlugin(this);

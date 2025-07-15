@@ -7,6 +7,7 @@ import lombok.Setter;
 import me.lyamray.mtwarscocaine.managers.entities.BlockDisplayManager;
 import me.lyamray.mtwarscocaine.managers.entities.TextDisplayManager;
 import me.lyamray.mtwarscocaine.utils.ChatColor;
+import me.lyamray.mtwarscocaine.utils.ItemStacks;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
@@ -39,9 +40,7 @@ public class HarvestManager {
                 textDisplay = TextDisplayManager.getInstance().createEntity(textLocation, uuid, plantValue, "10s");
                 TextDisplayManager.getInstance().hideEntity(player, textDisplay);
                 HarvestTimer.getInstance().handleTimer(textDisplay, state, player, plantValue);
-
-                player.sendMessage(ChatColor.color("<gray>Je bent gestart met het plukken van een " +
-                        "<green>volgroeide<green> <gray>cocaïne plant!<gray>"));
+                PlantRandomGrowTimer.getInstance().cancelTimer(uuid);
             }
 
             case "growing" -> {
@@ -49,11 +48,9 @@ public class HarvestManager {
                 textDisplay = TextDisplayManager.getInstance().createEntity(textLocation, uuid, plantValue, "10s");
                 TextDisplayManager.getInstance().hideEntity(player, textDisplay);
                 HarvestTimer.getInstance().handleTimer(textDisplay, state, player, plantValue);
-
-                player.sendMessage(ChatColor.color("<gray>Je bent gestart met het plukken van een " +
-                        "<green>niet-volgroeide<green> <gray>cocaïne plant!<gray>"));
-                player.sendMessage(ChatColor.color("<gray>Let op! Deze plant zal minder bladeren geven " +
-                        "dan een <green>volgroeide<green> <gray>plant!<gray>"));
+                PlantRandomGrowTimer.getInstance().cancelTimer(uuid);
+                player.sendMessage(ChatColor.color("<gradient:#555856:#555856>Let op! Deze plant zal minder bladeren " +
+                        "geven dan een <color:#61ffab>volgroeide</color> plant!</gradient>"));
             }
         }
     }
@@ -62,8 +59,15 @@ public class HarvestManager {
         int leaves = 0;
 
         switch (state) {
-            case "growing" -> leaves = ThreadLocalRandom.current().nextInt(2, 5); // 2–4
-            case "grown" -> leaves = ThreadLocalRandom.current().nextInt(4, 8);   // 4–7
+            case "growing" -> {
+                leaves = ThreadLocalRandom.current().nextInt(1, 3); // 2–4
+                player.getInventory().addItem(ItemStacks.cocaineLeaves(leaves));
+            }
+
+            case "grown" -> {
+                leaves = ThreadLocalRandom.current().nextInt(2, 5);   // 4–7
+                player.getInventory().addItem(ItemStacks.cocaineLeaves(leaves));
+            }
         }
 
         cleanUp(player, plantValue);
@@ -78,6 +82,8 @@ public class HarvestManager {
         plantValue.setIsBeingHarvested(false);
         plantValue.setState("planted");
         BlockDisplayManager.getInstance().createBlockDisplayEntity(player, plantValue);
-        PlantRandomGrowTime.getInstance().growTimer(player, plantValue);
+
+        PlantRandomGrowTimer.getInstance().cancelTimer(plantValue.getUuid());
+        PlantRandomGrowTimer.getInstance().startTimer(plantValue.getUuid(), player, plantValue);
     }
 }

@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.lyamray.mtwarscocaine.MTWarsCocaine;
-import me.lyamray.mtwarscocaine.managers.coca.PlantRandomGrowTime;
+import me.lyamray.mtwarscocaine.managers.coca.PlantRandomGrowTimer;
 import me.lyamray.mtwarscocaine.managers.coca.PlantValues;
 import me.lyamray.mtwarscocaine.utils.Keys;
 import me.lyamray.mtwarscocaine.utils.PersistentDataContainerUtil;
@@ -43,11 +43,12 @@ public class LoadPlants {
             }
 
             PlantValues plantValues = PersistentDataContainerUtil.fromJsonString(jsonString);
+            plantValues.setIsBeingHarvested(false);
             PersistentDataContainerUtil.toGson(plantValues, entity);
 
             plantValuesMap.put(uuid, plantValues);
 
-            PlantRandomGrowTime.getInstance().growTimer(entity, plantValues);
+            PlantRandomGrowTimer.getInstance().startTimer(uuid, entity, plantValues);
         }
     }
 
@@ -60,7 +61,7 @@ public class LoadPlants {
                         Keys.PLANT_ID,
                         PersistentDataType.STRING
                 );
-                if (idString.equals(storedId)) {
+                if (idString.equalsIgnoreCase(storedId)) {
                     return entity;
                 }
             }
