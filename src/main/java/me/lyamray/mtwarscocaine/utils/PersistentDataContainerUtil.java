@@ -11,7 +11,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.time.LocalTime;
 import java.util.UUID;
 
 @UtilityClass
@@ -38,6 +37,8 @@ public class PersistentDataContainerUtil {
     public void remove(PersistentDataContainer container, NamespacedKey key) {
         container.remove(key);
     }
+
+
 
     public void toGson(PlantValues plantValue, Entity entity) {
         JsonObject jsonObject = new JsonObject();
@@ -73,5 +74,38 @@ public class PersistentDataContainerUtil {
                 && json.get("ish").getAsBoolean();
 
         return new PlantValues(uuid, location, state, isBeingHarvested);
+    }
+
+    public PlantValues fromJsonString(String jsonStr) {
+        JsonObject json = gson.fromJson(jsonStr, JsonObject.class);
+
+        UUID uuid = UUID.fromString(json.get("u").getAsString());
+
+        String worldName = json.get("w").getAsString();
+        double x = json.get("x").getAsDouble();
+        double y = json.get("y").getAsDouble();
+        double z = json.get("z").getAsDouble();
+        Location location = new Location(Bukkit.getWorld(worldName), x, y, z);
+
+        String state = json.get("s").getAsString();
+
+        boolean isBeingHarvested = json.has("ish") && !json.get("ish").isJsonNull()
+                && json.get("ish").getAsBoolean();
+
+        return new PlantValues(uuid, location, state, isBeingHarvested);
+    }
+
+    public String toJsonString(PlantValues plantValue) {
+        JsonObject jsonObject = new JsonObject();
+
+        jsonObject.addProperty("u", plantValue.getUuid().toString());
+        jsonObject.addProperty("w", plantValue.getLocation().getWorld().getName());
+        jsonObject.addProperty("x", plantValue.getLocation().getX());
+        jsonObject.addProperty("y", plantValue.getLocation().getY());
+        jsonObject.addProperty("z", plantValue.getLocation().getZ());
+        jsonObject.addProperty("s", plantValue.getState());
+        jsonObject.addProperty("ish", plantValue.getIsBeingHarvested());
+
+        return gson.toJson(jsonObject);
     }
 }

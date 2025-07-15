@@ -1,7 +1,10 @@
 package me.lyamray.mtwarscocaine.commands;
 
+import me.lyamray.mtwarscocaine.MTWarsCocaine;
+import me.lyamray.mtwarscocaine.database.Database;
 import me.lyamray.mtwarscocaine.managers.entities.BlockDisplayManager;
 import me.lyamray.mtwarscocaine.managers.coca.PlantValues;
+import me.lyamray.mtwarscocaine.utils.PersistentDataContainerUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -40,6 +43,7 @@ public class TestCMD implements CommandExecutor {
                 false
         );
 
+        MTWarsCocaine.getInstance().getDatabase().addPlant(plantValue);
         BlockDisplayManager.getInstance().createBlockDisplayEntity(player, plantValue);
 
         return true;

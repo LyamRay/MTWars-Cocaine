@@ -20,6 +20,9 @@ public class StartCheckForGrowTime {
 
     private void checkTimeAndLog() {
         MTWarsCocaine.setPlantsCanGrow(RandomGrowTime.getInstance().isWithinAnyRange(LocalTime.now()));
+        if (RandomGrowTime.getInstance().isWithinAnyRange(LocalTime.now())) {
+            MTWarsCocaine.getInstance().load
+        }
         String message = RandomGrowTime.getInstance().isWithinAnyRange(LocalTime.now())
                 ? "Lyam zijn ballen zijn " + Math.PI + " cm in diameter!" : "Je bent maagd";
         Bukkit.broadcastMessage(message);
