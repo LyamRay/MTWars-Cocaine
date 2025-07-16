@@ -63,14 +63,17 @@ public class HarvestManager {
             case "growing" -> {
                 leaves = ThreadLocalRandom.current().nextInt(1, 3); // 2–4
                 player.getInventory().addItem(ItemStacks.cocaineLeaves(leaves));
+                String message = (leaves < 1) ?"<gradient:#555856:#555850>Je hebt 1 blad gekregen!<gradient>"
+                        : "<gradient:#555856:#555850>Je hebt " + leaves + " bladeren gekregen!<gradient>";
+                player.sendMessage(ChatColor.color(message));
             }
 
             case "grown" -> {
                 leaves = ThreadLocalRandom.current().nextInt(2, 4);   // 4–7
                 player.getInventory().addItem(ItemStacks.cocaineLeaves(leaves));
                 String message = (leaves < 1) ?"<gradient:#555856:#555850>Je hebt 1 blad gekregen!<gradient>"
-                        : "<gradient:#555856:#555850>Je hebt "+ leaves + " bladeren gekregen!<gradient>";
-                player.sendMessage(ChatColor.color("<gradient:#555856:#555850>Je hebt " + leaves + " blad"));
+                        : "<gradient:#555856:#555850>Je hebt " + leaves + " bladeren gekregen!<gradient>";
+                player.sendMessage(ChatColor.color(message));
             }
         }
 
