@@ -25,13 +25,12 @@ public class StartCheckForGrowTime {
     private void checkTimeAndLog() {
         MTWarsCocaine.setPlantsCanGrow(RandomGrowTime.getInstance().isWithinAnyRange(LocalTime.now()));
 
-        if (isLoaded) return;
-
         if (RandomGrowTime.getInstance().isWithinAnyRange(LocalTime.now())) {
+            if (isLoaded) return;
             try {
                 isLoaded = true;
+                sendTimeMessage();
                 LoadPlants.getInstance().load();
-                Bukkit.broadcastMessage("Loaded plants.");
             } catch (SQLException e) {
                 MTWarsCocaine.getInstance().getLogger().severe("Kon planten niet laden uit de database: " + e.getMessage());
                 e.printStackTrace();
@@ -40,11 +39,9 @@ public class StartCheckForGrowTime {
         } else {
             isLoaded = false;
         }
+    }
 
-        String message = RandomGrowTime.getInstance().isWithinAnyRange(LocalTime.now())
-                ? "Lyam zijn ballen zijn " + Math.PI + " cm in diameter!"
-                : "Je bent maagd";
-
-        Bukkit.broadcastMessage(message);
+    private void sendTimeMessage() {
+        RandomMessages.getInstance().maybeBroadcastGrowTimeMessage();
     }
 }
