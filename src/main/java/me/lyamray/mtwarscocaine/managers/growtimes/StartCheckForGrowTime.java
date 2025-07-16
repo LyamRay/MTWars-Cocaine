@@ -29,8 +29,8 @@ public class StartCheckForGrowTime {
             if (isLoaded) return;
             try {
                 isLoaded = true;
-                sendTimeMessage();
                 LoadPlants.getInstance().load();
+                sendTimeMessage();
             } catch (SQLException e) {
                 MTWarsCocaine.getInstance().getLogger().severe("Kon planten niet laden uit de database: " + e.getMessage());
                 e.printStackTrace();

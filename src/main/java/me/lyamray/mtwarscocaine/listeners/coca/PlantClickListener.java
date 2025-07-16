@@ -1,5 +1,7 @@
 package me.lyamray.mtwarscocaine.listeners.coca;
 
+import lombok.Getter;
+import lombok.Setter;
 import me.lyamray.mtwarscocaine.managers.coca.HarvestManager;
 import me.lyamray.mtwarscocaine.managers.coca.PlantValues;
 import me.lyamray.mtwarscocaine.utils.ChatColor;
@@ -15,6 +17,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,6 +26,9 @@ public class PlantClickListener implements Listener {
 
     private Player player;
 
+    @Getter
+    @Setter
+    private static HashMap<UUID, UUID> isGathering = new HashMap<>();
 
     @EventHandler
     public void onUnknownEntityUse(PlayerInteractEntityEvent event) {
@@ -45,7 +51,6 @@ public class PlantClickListener implements Listener {
 
     private void checkIfIsBeingHarvested(Entity entity, Player player) {
         PlantValues plantValue = PersistentDataContainerUtil.fromGson(entity);
-
         if (plantValue == null) return;
 
         UUID playerId = player.getUniqueId();
@@ -53,13 +58,14 @@ public class PlantClickListener implements Listener {
 
         UUID harvesterId = getHarvesterId(container);
         boolean isHarvested = Boolean.TRUE.equals(plantValue.getIsBeingHarvested());
+        boolean isHarvesting = getIsGathering().containsKey(playerId);
 
-        if (!isHarvested || harvesterId == null) {
+        if (!isHarvested && harvesterId == null && !isHarvesting) {
             claimPlant(container, playerId, entity, plantValue);
             return;
         }
 
-        sendHarvestMessage(player, playerId, harvesterId);
+        sendHarvestMessage(player, playerId, harvesterId, plantValue);
     }
 
     private UUID getHarvesterId(PersistentDataContainer container) {
@@ -78,16 +84,22 @@ public class PlantClickListener implements Listener {
         plantValues.setIsBeingHarvested(true);
         PersistentDataContainerUtil.toGson(plantValues, entity);
 
+        isGathering.put(playerId, plantValues.getUuid());
         HarvestManager.getInstance().harvestPlant(player, plantValues);
     }
 
-    private void sendHarvestMessage(Player player, UUID playerId, UUID harvesterId) {
-        String message = playerId.equals(harvesterId)
-                ? "<gradient:#555856:#555856>Je bent deze plant al aan het plukken!</gradient>"
-                : "<gradient:#555856:#555856>Deze plant wordt al door <color:#61ffab>" +
-                Optional.ofNullable(Bukkit.getOfflinePlayer(harvesterId).getName())
-                .orElse("onbekend") + "</color> geplukt!</gradient>";
+    private void sendHarvestMessage(Player player, UUID playerId, UUID harvesterId, PlantValues plantValue) {
+        UUID gatheringId = isGathering.get(playerId);
 
-        player.sendMessage(ChatColor.color(message));
+        if (gatheringId != null && !gatheringId.equals(plantValue.getUuid())) {
+            player.sendMessage(ChatColor.color("<gray>Je bent al een plant aan het plukken!</gray>"));
+        } else {
+            String message = playerId.equals(harvesterId)
+                    ? "<gray>Je bent deze plant al aan het plukken!</gray>"
+                    : "<gray>Deze plant wordt al door <color:#61ffab>" +
+                    Optional.ofNullable(Bukkit.getOfflinePlayer(harvesterId).getName()).orElse("onbekend") +
+                    "</color> geplukt!</gray>";
+            player.sendMessage(ChatColor.color(message));
+        }
     }
 }

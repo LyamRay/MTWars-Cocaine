@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import me.lyamray.mtwarscocaine.commands.TestCMD;
+import me.lyamray.mtwarscocaine.commands.TimeCommand;
 import me.lyamray.mtwarscocaine.database.Database;
-import me.lyamray.mtwarscocaine.database.LoadPlants;
 import me.lyamray.mtwarscocaine.database.SavePlants;
 import me.lyamray.mtwarscocaine.listeners.BlockClickListener;
 import me.lyamray.mtwarscocaine.listeners.coca.PlantClickListener;
@@ -50,9 +50,10 @@ public final class MTWarsCocaine extends JavaPlugin {
 
         registerListeners();
 
-        Bukkit.getScheduler().runTaskLater(this, this::loadPlantsSafely, 10*20L);
+        Bukkit.getScheduler().runTaskLater(this, this::areWorldsLoaded, 10 * 20L);
 
         getCommand("test").setExecutor(new TestCMD());
+        getCommand("time").setExecutor(new TimeCommand());
 
         log.info("MTWarsCocaine enabled.");
     }
@@ -103,13 +104,16 @@ public final class MTWarsCocaine extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new BlockClickListener(), this);
     }
 
-    private void loadPlantsSafely() {
-        try {
-            LoadPlants.getInstance().load();
-            StartCheckForGrowTime.getInstance().startTimeCheckTask();
-        } catch (SQLException e) {
-            log.error("Failed to load plants", e);
-            Bukkit.getPluginManager().disablePlugin(this);
+    private void areWorldsLoaded() {
+        if (Bukkit.getWorlds().isEmpty()) {
+            log.warn("No worlds are loaded yet.");
+            Bukkit.getScheduler().runTaskLater(this, this::areWorldsLoaded, 10 * 20L);
+            return;
         }
+        loadPlantsSafely();
+    }
+
+    private void loadPlantsSafely() {
+        StartCheckForGrowTime.getInstance().startTimeCheckTask();
     }
 }

@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import me.lyamray.mtwarscocaine.listeners.coca.PlantClickListener;
 import me.lyamray.mtwarscocaine.managers.entities.BlockDisplayManager;
 import me.lyamray.mtwarscocaine.managers.entities.TextDisplayManager;
 import me.lyamray.mtwarscocaine.utils.ChatColor;
@@ -65,11 +66,15 @@ public class HarvestManager {
             }
 
             case "grown" -> {
-                leaves = ThreadLocalRandom.current().nextInt(2, 5);   // 4–7
+                leaves = ThreadLocalRandom.current().nextInt(2, 4);   // 4–7
                 player.getInventory().addItem(ItemStacks.cocaineLeaves(leaves));
+                String message = (leaves < 1) ?"<gradient:#555856:#555850>Je hebt 1 blad gekregen!<gradient>"
+                        : "<gradient:#555856:#555850>Je hebt "+ leaves + " bladeren gekregen!<gradient>";
+                player.sendMessage(ChatColor.color("<gradient:#555856:#555850>Je hebt " + leaves + " blad"));
             }
         }
 
+        PlantClickListener.getIsGathering().remove(player.getUniqueId());
         cleanUp(player, plantValue);
         replantPlant(player, plantValue);
     }

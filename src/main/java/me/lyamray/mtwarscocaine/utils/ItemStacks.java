@@ -8,8 +8,8 @@ import org.bukkit.inventory.ItemStack;
 public class ItemStacks {
 
     public ItemStack cocaineLeaves(int amount) {
-        String name = "<color:#61ffab>Cocaine Blad</color>";
-        String lore = "<gradient:#555856:#555856>Gebruik dit blad in een <color:#61ffab>speciaal</color> recept!</gradient>";
+        String name = "<color:#61ffab>Cocaïne Blad</color>";
+        String lore = "<gradient:#555856:#555856>Gebruik dit blad in een <color:#61ffab>speciaal</color> recept!<gradient>";
         return new ItemBuilder(Material.KELP, amount)
                 .setName(name)
                 .addLoreLine(lore)

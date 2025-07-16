@@ -3,6 +3,7 @@ package me.lyamray.mtwarscocaine.managers.coca;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.lyamray.mtwarscocaine.MTWarsCocaine;
 import me.lyamray.mtwarscocaine.managers.entities.BlockDisplayManager;
 import org.bukkit.entity.Entity;
@@ -13,6 +14,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PlantRandomGrowTimer {
 
@@ -24,7 +26,7 @@ public class PlantRandomGrowTimer {
     public void startTimer(UUID uuid, Entity entity, PlantValues plantValue) {
         int randomTicks = ThreadLocalRandom.current().nextInt(180, 300) * 20;
 
-        if (plantValue.isBeingHarvested || plantValue.getState().equalsIgnoreCase("grown")) {
+        if (plantValue.isBeingHarvested || plantValue.getState().equalsIgnoreCase("grown") || !MTWarsCocaine.isPlantsCanGrow()) {
             return;
         }
 
@@ -44,7 +46,7 @@ public class PlantRandomGrowTimer {
 
                 String nextState = nextState(plantValue);
                 plantValue.setState(nextState);
-
+                log.info("The plant {} has grown to the state {}!", uuid, nextState);
                 BlockDisplayManager.getInstance().deleteEntitiesByUUID(entity, uuid);
                 BlockDisplayManager.getInstance().createBlockDisplayEntity(entity, plantValue);
 

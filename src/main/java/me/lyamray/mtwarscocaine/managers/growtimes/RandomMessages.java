@@ -21,33 +21,32 @@ public class RandomMessages {
 
     static {
         messages.put(TimeBlock.NIGHT, List.of(
-                "<gradient:#555856:#555856><i>Denkt na:</i> De <color:#61ffab>regen</color> is eindelijk gestopt. Alles is rustig...</gradient>",
-                "<gradient:#555856:#555856><i>Denkt na:</i> De lucht is helder vannacht. De <color:#61ffab>maan</color> geeft rust...</gradient>",
-                "<gradient:#555856:#555856><i>Denkt na:</i> Het is ongewoon <color:#61ffab>zacht</color> voor deze tijd van de nacht...</gradient>",
-                "<gradient:#555856:#555856><i>Denkt na:</i> De stilte voelt bijna... <color:#61ffab>vruchtbaar</color>.</gradient>"
+                "<gray><i>Denkt na:</i> De regen is eindelijk <color:#61ffab>gestopt</color>... ideale nachtrust voor planten.</gray>",
+                "<gray><i>Denkt na:</i> Wat een heldere en <color:#61ffab>rustige</color> nacht... alles lijkt mee te zitten.</gray>",
+                "<gray><i>Denkt na:</i> De lucht is open en stil... een goede nacht voor <color:#61ffab>groei</color>.</gray>",
+                "<gray><i>Denkt na:</i> De omstandigheden zijn zeldzaam <color:#61ffab>gunstig</color> voor dit uur.</gray>"
         ));
 
         messages.put(TimeBlock.MORNING, List.of(
-                "<gradient:#555856:#555856><i>Denkt na:</i> De zon komt op, en de <color:#61ffab>dauw</color> verdampt langzaam...</gradient>",
-                "<gradient:#555856:#555856><i>Denkt na:</i> Het voelt als een <color:#61ffab>goede ochtend</color> vandaag...</gradient>",
-                "<gradient:#555856:#555856><i>Denkt na:</i> Geen wind, geen regen. De natuur <color:#61ffab>ademt</color> kalmte uit...</gradient>",
-                "<gradient:#555856:#555856><i>Denkt na:</i> Het licht valt precies goed... het ruikt naar <color:#61ffab>nieuw begin</color>.</gradient>"
+                "<gray><i>Denkt na:</i> Wat een heerlijke <color:#61ffab>ochtend</color>... alles lijkt in balans.</gray>",
+                "<gray><i>Denkt na:</i> De dauw trekt op en het zonnetje komt door. Perfect <color:#61ffab>weer</color>.</gray>",
+                "<gray><i>Denkt na:</i> Rustig weer, milde temperatuur... niets staat <color:#61ffab>groei</color> in de weg.</gray>",
+                "<gray><i>Denkt na:</i> Het voelt alsof dit een echt <color:#61ffab>groeimoment</color> is.</gray>"
         ));
 
         messages.put(TimeBlock.NOON, List.of(
-                "<gradient:#555856:#555856><i>Denkt na:</i> Het is nu wat <color:#61ffab>warmer</color> geworden...</gradient>",
-                "<gradient:#555856:#555856><i>Denkt na:</i> Geen wolk aan de lucht. Een <color:#61ffab>perfecte</color> dag tot nu toe.</gradient>",
-                "<gradient:#555856:#555856><i>Denkt na:</i> De zon geeft alles <color:#61ffab>leven</color> vandaag...</gradient>",
-                "<gradient:#555856:#555856><i>Denkt na:</i> De temperatuur is precies goed. Het voelt <color:#61ffab>juist</color> aan.</gradient>"
+                "<gray><i>Denkt na:</i> Het is stil en <color:#61ffab>zonnig</color>... ideaal voor de planten.</gray>",
+                "<gray><i>Denkt na:</i> Wat een stabiele <color:#61ffab>middag</color>. Alles lijkt te kloppen.</gray>",
+                "<gray><i>Denkt na:</i> De hitte valt mee vandaag. Gunstig weer voor <color:#61ffab>groei</color>.</gray>",
+                "<gray><i>Denkt na:</i> De natuur houdt haar adem in... er hangt iets in de <color:#61ffab>lucht</color>.</gray>"
         ));
 
         messages.put(TimeBlock.EVENING, List.of(
-                "<gradient:#555856:#555856><i>Denkt na:</i> De hitte is eindelijk <color:#61ffab>gezakt</color>. Adem in...</gradient>",
-                "<gradient:#555856:#555856><i>Denkt na:</i> De lucht is nog steeds warm, maar de <color:#61ffab>rust</color> keert terug...</gradient>",
-                "<gradient:#555856:#555856><i>Denkt na:</i> Geen regen, geen wind... de avond is <color:#61ffab>mild</color>.</gradient>",
-                "<gradient:#555856:#555856><i>Denkt na:</i> Alles voelt ineens weer <color:#61ffab>stabiel</color> aan...</gradient>"
+                "<gray><i>Denkt na:</i> De warmte zakt langzaam weg... alles komt tot <color:#61ffab>rust</color>.</gray>",
+                "<gray><i>Denkt na:</i> De wind ligt stil en de lucht is <color:#61ffab>zacht</color>... een zeldzaam goed moment.</gray>",
+                "<gray><i>Denkt na:</i> De avond is kalm en warm. Dat komt de <color:#61ffab>groei</color> alleen maar ten goede.</gray>",
+                "<gray><i>Denkt na:</i> Geen regen, geen wind... gewoon goed <color:#61ffab>weer</color>.</gray>"
         ));
-
 
     }
 

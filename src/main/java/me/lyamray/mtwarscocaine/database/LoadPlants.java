@@ -47,7 +47,7 @@ public class LoadPlants {
             PersistentDataContainerUtil.toGson(plantValues, entity);
 
             plantValuesMap.put(uuid, plantValues);
-
+            log.info("Plant: {}", uuid + " loaded.");
             PlantRandomGrowTimer.getInstance().startTimer(uuid, entity, plantValues);
         }
     }
