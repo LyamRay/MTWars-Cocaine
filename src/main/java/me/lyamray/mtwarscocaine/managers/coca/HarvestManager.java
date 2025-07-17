@@ -57,21 +57,20 @@ public class HarvestManager {
     }
 
     public void succesfullyHarvested(Player player, PlantValues plantValue, String state) {
-        int leaves = 0;
 
         switch (state) {
             case "growing" -> {
-                leaves = ThreadLocalRandom.current().nextInt(1, 3); // 2–4
-                player.getInventory().addItem(ItemStacks.cocaineLeaves(leaves));
-                String message = (leaves < 1) ?"<gradient:#555856:#555850>Je hebt 1 blad gekregen!<gradient>"
+                int leaves = ThreadLocalRandom.current().nextInt(1, 3);
+                player.getInventory().addItem(ItemStacks.cocaineLeaves(leaves - 1));
+                String message = (leaves <= 1) ?"<gradient:#555856:#555850>Je hebt 1 blad gekregen!<gradient>"
                         : "<gradient:#555856:#555850>Je hebt " + leaves + " bladeren gekregen!<gradient>";
                 player.sendMessage(ChatColor.color(message));
             }
 
             case "grown" -> {
-                leaves = ThreadLocalRandom.current().nextInt(2, 4);   // 4–7
-                player.getInventory().addItem(ItemStacks.cocaineLeaves(leaves));
-                String message = (leaves < 1) ?"<gradient:#555856:#555850>Je hebt 1 blad gekregen!<gradient>"
+                int leaves = ThreadLocalRandom.current().nextInt(1, 5);
+                player.getInventory().addItem(ItemStacks.cocaineLeaves(leaves - 1));
+                String message = (leaves <= 1) ?"<gradient:#555856:#555850>Je hebt 1 blad gekregen!<gradient>"
                         : "<gradient:#555856:#555850>Je hebt " + leaves + " bladeren gekregen!<gradient>";
                 player.sendMessage(ChatColor.color(message));
             }

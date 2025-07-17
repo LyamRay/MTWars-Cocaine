@@ -11,7 +11,7 @@ commands:
     aliases:
       - testtitty
       - lyamrayhasbigcock
-  time:
+  itstime:
     description: test time cmd
     aliases:
       - jebentmaagdsletje

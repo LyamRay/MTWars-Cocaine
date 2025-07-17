@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Slf4j
+@Getter
 public final class MTWarsCocaine extends JavaPlugin {
 
     @Getter
@@ -53,7 +54,7 @@ public final class MTWarsCocaine extends JavaPlugin {
         Bukkit.getScheduler().runTaskLater(this, this::areWorldsLoaded, 10 * 20L);
 
         getCommand("test").setExecutor(new TestCMD());
-        getCommand("time").setExecutor(new TimeCommand());
+        getCommand("itstime").setExecutor(new TimeCommand());
 
         log.info("MTWarsCocaine enabled.");
     }

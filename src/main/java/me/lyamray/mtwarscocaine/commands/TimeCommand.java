@@ -13,16 +13,18 @@ import java.time.LocalTime;
 
 public class TimeCommand implements CommandExecutor {
     @Override
-    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (!(commandSender instanceof Player player)) {
-            commandSender.sendMessage(ChatColor.RED + "Only players can use this command!");
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+        if (!(sender instanceof Player player)) {
+            sender.sendMessage(ChatColor.RED + "Only players can use this command!");
             return true;
         }
 
+        LocalTime start = LocalTime.now().minusMinutes(1);
+        LocalTime end = LocalTime.now().plusHours(1);
         RandomGrowTime.getInstance().getRanges()
-                .add(new RandomGrowTime.TimeRange(LocalTime.now(), LocalTime.now().plusHours(1)));
-        player.sendMessage(me.lyamray.mtwarscocaine.utils.ChatColor.color("Het is tijd om te plukken! //DEBUG"));
+                .add(new RandomGrowTime.TimeRange(start, end));
 
+        player.sendMessage(ChatColor.GREEN + "Time range added from " + start + " to " + end);
         return true;
     }
 }

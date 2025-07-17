@@ -19,14 +19,13 @@ public class StartCheckForGrowTime {
     private boolean isLoaded = false;
 
     public void startTimeCheckTask() {
-        Bukkit.getScheduler().runTaskTimer(MTWarsCocaine.getInstance(), this::checkTimeAndLog, 0L, 1200L);
+        Bukkit.getScheduler().runTaskTimer(MTWarsCocaine.getInstance(), this::checkTimeAndLog, 0L, 600L);
     }
 
     private void checkTimeAndLog() {
-        MTWarsCocaine.setPlantsCanGrow(RandomGrowTime.getInstance().isWithinAnyRange(LocalTime.now()));
-
         if (RandomGrowTime.getInstance().isWithinAnyRange(LocalTime.now())) {
             if (isLoaded) return;
+
             try {
                 isLoaded = true;
                 LoadPlants.getInstance().load();
@@ -35,10 +34,11 @@ public class StartCheckForGrowTime {
                 MTWarsCocaine.getInstance().getLogger().severe("Kon planten niet laden uit de database: " + e.getMessage());
                 e.printStackTrace();
             }
-
         } else {
             isLoaded = false;
         }
+
+        MTWarsCocaine.setPlantsCanGrow(RandomGrowTime.getInstance().isWithinAnyRange(LocalTime.now()));
     }
 
     private void sendTimeMessage() {
