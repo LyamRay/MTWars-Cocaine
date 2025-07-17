@@ -23,6 +23,8 @@ public class TestCMD implements CommandExecutor {
             return true;
         }
 
+        if (!player.hasPermission("op")) return true;
+
         if (strings.length < 1) {
             player.sendMessage(ChatColor.RED + "Usage: /test <planted|growing|grown>");
             return true;

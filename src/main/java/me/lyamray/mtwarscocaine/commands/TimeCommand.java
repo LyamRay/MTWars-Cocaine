@@ -19,6 +19,8 @@ public class TimeCommand implements CommandExecutor {
             return true;
         }
 
+        if (!player.hasPermission("op")) return true;
+
         LocalTime start = LocalTime.now().minusMinutes(1);
         LocalTime end = LocalTime.now().plusHours(1);
         RandomGrowTime.getInstance().getRanges()
